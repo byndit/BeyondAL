@@ -1,0 +1,130 @@
+name: Publish To Environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      appVersion:
+        description: App version to deploy (current, prerelease, draft, latest or version number)
+        required: false
+        default: 'current'
+      environmentName:
+        description: Environment to receive the new version (* for all)
+        required: false
+        default: '*'
+
+defaults:
+  run:
+    shell: PowerShell
+
+jobs:
+  Initialization:
+    runs-on: [ windows-latest ]
+    outputs:
+      telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Initialize the workflow
+        id: init
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v0.1
+        with:
+          eventId: "DO0097"
+
+  Analyze:
+    runs-on: [ windows-latest ]
+    needs: [ Initialization ]
+    outputs:
+      settings: ${{ steps.ReadSettings.outputs.SettingsJson }}
+      environments: ${{ steps.ReadSettings.outputs.EnvironmentsJson }}
+      environmentCount: ${{ steps.ReadSettings.outputs.EnvironmentCount }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Read settings
+        id: ReadSettings
+        uses: microsoft/AL-Go-Actions/ReadSettings@v0.1
+        with:
+          parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
+          getEnvironments: '${{ github.event.inputs.environmentName }}'
+          includeProduction: 'Y'
+
+  Deploy:
+    runs-on: [ windows-latest ] 
+    needs: [ Analyze ]
+    if: ${{ needs.Analyze.outputs.environmentCount > 0 }}
+    strategy:
+      matrix:
+        environment: ${{ fromJson(needs.Analyze.outputs.environments) }}
+      fail-fast: false
+    name: Deploy to ${{ matrix.environment }}
+    environment:
+      name: ${{ matrix.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: EnvName
+        id: envName
+        run: |
+          $envName = '${{ matrix.environment }}'.split(' ')[0]
+          Write-Host "::set-output name=envName::$envName"
+
+      - name: Read settings
+        uses: microsoft/AL-Go-Actions/ReadSettings@v0.1
+
+      - name: Read secrets
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v0.1
+        env:
+          secrets: ${{ toJson(secrets) }}
+        with:
+          settingsJson: ${{ env.Settings }}
+          secrets: '${{ steps.envName.outputs.envName }}-AuthContext,AuthContext'
+
+      - name: AuthContext
+        id: authContext
+        run: |
+          $authContext = [System.Environment]::GetEnvironmentVariable('${{ steps.envName.outputs.envName }}-AuthContext')
+          if ($authContext) {
+            Write-Host "Using ${{ steps.envName.outputs.envName }}-AuthContext secret"
+          }
+          else {
+            $authContext = [System.Environment]::GetEnvironmentVariable('AuthContext')
+            if ($authContext) {
+              Write-Host "Using AuthContext secret"
+            }
+            else {
+              Write-Host "::Error::No AuthContext provided"
+              exit 1
+            }
+          }
+          Write-Host "::set-output name=authContext::$authContext"
+          Write-Host "set-output name=authContext::$authContext"
+
+      - name: Deploy
+        uses: microsoft/AL-Go-Actions/Deploy@v0.1
+        env:
+          authContext: '${{ steps.authContext.outputs.authContext }}'
+        with:
+          parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
+          type: 'Publish'
+          projects: '${{ secrets.Projects }}'
+          environmentName: ${{ matrix.environment }}
+          artifacts: ${{ github.event.inputs.appVersion }}
+
+  PostProcess:
+    if: always()
+    runs-on: [ windows-latest ]
+    needs: [ Initialization, Analyze, Deploy ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Finalize the workflow
+        id: PostProcess
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v0.1
+        with:
+          eventId: "DO0097"
+          telemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
+
