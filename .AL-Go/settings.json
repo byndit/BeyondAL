@@ -7,6 +7,6 @@
                        "BeyondAL"
                    ],
     "testFolders":  [
-
+                        "BeyondAL.Test"
                     ]
 }
