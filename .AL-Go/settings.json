@@ -1,10 +1,12 @@
-{
-    "country": "us",
-    "AppSourceCopMandatoryAffixes": [
-        "<affix>"
-    ],
-    "appFolders": [
-    ],
-    "testFolders": [
-    ]
+﻿{
+    "country":  "us",
+    "AppSourceCopMandatoryAffixes":  [
+                                         "\u003caffix\u003e"
+                                     ],
+    "appFolders":  [
+                       "BeyondAL"
+                   ],
+    "testFolders":  [
+
+                    ]
 }

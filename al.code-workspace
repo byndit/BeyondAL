@@ -1,7 +1,10 @@
-{
+﻿{
     "folders":  [
                     {
                         "path":  ".AL-Go"
+                    },
+                    {
+                        "path":  "BeyondAL"
                     }
                 ],
     "settings":  {
