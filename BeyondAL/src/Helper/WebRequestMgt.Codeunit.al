@@ -82,12 +82,9 @@ codeunit 50001 "BYD Web Request Mgt."
         exit(JArray);
     end;
 
-    procedure ResponseAsInStr(Response: HttpResponseMessage): InStream
-    var
-        InStr: InStream;
+    procedure ResponseAsInStr(var InStr: InStream; Response: HttpResponseMessage)
     begin
         Response.Content.ReadAs(InStr);
-        exit(InStr);
     end;
 
     procedure ResponseAsXMLDoc(Response: HttpResponseMessage): XmlDocument
