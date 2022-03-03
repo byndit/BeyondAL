@@ -3,4 +3,12 @@
 TestResults.xml
 rad.json
 .output
-cache_*
+**/.snapshots
+**/.alpackages/*
+**/.altestrunner
+**/.alcache
+**/.vscode/*
+**/.output
+!**/.vscode/rad.json
+!**/.alpackages/.readme
+
