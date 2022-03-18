@@ -33,6 +33,19 @@ page 50000 "BYD Examples"
                     BYDExamplesMgt.DownloadPDFfromURL();
                 end;
             }
+            action(ShowImage)
+            {
+                ApplicationArea = All;
+                Caption = 'Show a picture from URL in a separate Page';
+                Image = ShowList;
+
+                trigger OnAction()
+                var
+                    BYDExamplesMgt: Codeunit "BYD Examples Mgt.";
+                begin
+                    BYDExamplesMgt.ViewImagefromURL();
+                end;
+            }
         }
     }
 
