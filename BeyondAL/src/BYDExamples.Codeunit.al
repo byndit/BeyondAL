@@ -15,8 +15,8 @@ codeunit 50002 "BYD Examples Mgt."
     procedure ViewImagefromURL()
     var
         Base64Convert: Codeunit "Base64 Convert";
-        BYDViewer: Page "BYD Viewer";
         BYDEditor: Page "BYD Editor";
+        BYDViewer: Page "BYD Viewer";
         Instr: InStream;
         Base64: Text;
         Url: Text;

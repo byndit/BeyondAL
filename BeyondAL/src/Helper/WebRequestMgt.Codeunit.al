@@ -2,8 +2,8 @@ codeunit 50001 "BYD Web Request Mgt."
 {
     procedure PerformWebRequest(Url: Text; Method: Enum "BYD Web Request Method"): HttpResponseMessage;
     var
-        Content: HttpContent;
         RequestHeaders: Dictionary of [Text, Text];
+        Content: HttpContent;
     begin
         Content.WriteFrom('');
         exit(PerformWebRequest(Url, Method, RequestHeaders, Content));
@@ -89,8 +89,8 @@ codeunit 50001 "BYD Web Request Mgt."
 
     procedure ResponseAsXMLDoc(Response: HttpResponseMessage): XmlDocument
     var
-        XmlDoc: XmlDocument;
         ResponseTxt: Text;
+        XmlDoc: XmlDocument;
     begin
         Response.Content.ReadAs(ResponseTxt);
         XmlDocument.ReadFrom(ResponseTxt, XmlDoc);
@@ -121,7 +121,7 @@ codeunit 50001 "BYD Web Request Mgt."
     end;
 
     var
+        AuthorizationTok: Label 'Authorization', Locked = true;
         BasicAuthTok: Label 'Basic %1', Locked = true;
         BearerTok: Label 'Bearer %1', locked = true;
-        AuthorizationTok: Label 'Authorization', Locked = true;
 }
