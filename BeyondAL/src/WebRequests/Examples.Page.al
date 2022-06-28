@@ -1,4 +1,4 @@
-page 50000 "BYD Examples"
+page 50000 "BIT Examples"
 {
     PageType = Card;
     ApplicationArea = All;
@@ -28,9 +28,9 @@ page 50000 "BYD Examples"
 
                 trigger OnAction()
                 var
-                    BYDExamplesMgt: Codeunit "BYD Examples Mgt.";
+                    BITExamplesMgt: Codeunit "BIT Examples Mgt.";
                 begin
-                    BYDExamplesMgt.DownloadPDFfromURL();
+                    BITExamplesMgt.DownloadPDFfromURL();
                 end;
             }
             action(ShowImage)
@@ -41,9 +41,9 @@ page 50000 "BYD Examples"
 
                 trigger OnAction()
                 var
-                    BYDExamplesMgt: Codeunit "BYD Examples Mgt.";
+                    BITExamplesMgt: Codeunit "BIT Examples Mgt.";
                 begin
-                    BYDExamplesMgt.ViewImagefromURL();
+                    BITExamplesMgt.ViewImagefromURL();
                 end;
             }
         }

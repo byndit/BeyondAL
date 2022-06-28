@@ -1,6 +1,6 @@
-codeunit 50001 "BYD Web Request Mgt."
+codeunit 50001 "BIT Web Request Mgt."
 {
-    procedure PerformWebRequest(Url: Text; Method: Enum "BYD Web Request Method"): HttpResponseMessage;
+    procedure PerformWebRequest(Url: Text; Method: Enum "BIT Web Request Method"): HttpResponseMessage;
     var
         RequestHeaders: Dictionary of [Text, Text];
         Content: HttpContent;
@@ -9,7 +9,7 @@ codeunit 50001 "BYD Web Request Mgt."
         exit(PerformWebRequest(Url, Method, RequestHeaders, Content));
     end;
 
-    procedure PerformWebRequest(Url: Text; Method: Enum "BYD Web Request Method"; RequestHeaders: Dictionary of [Text, Text]): HttpResponseMessage;
+    procedure PerformWebRequest(Url: Text; Method: Enum "BIT Web Request Method"; RequestHeaders: Dictionary of [Text, Text]): HttpResponseMessage;
     var
         Content: HttpContent;
     begin
@@ -17,7 +17,7 @@ codeunit 50001 "BYD Web Request Mgt."
         exit(PerformWebRequest(Url, Method, RequestHeaders, Content));
     end;
 
-    procedure PerformWebRequest(Url: Text; Method: Enum "BYD Web Request Method"; RequestHeaders: Dictionary of [Text, Text]; var Content: HttpContent): HttpResponseMessage;
+    procedure PerformWebRequest(Url: Text; Method: Enum "BIT Web Request Method"; RequestHeaders: Dictionary of [Text, Text]; var Content: HttpContent): HttpResponseMessage;
     var
         Client: HttpClient;
         Response: HttpResponseMessage;

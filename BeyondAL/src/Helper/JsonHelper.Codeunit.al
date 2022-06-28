@@ -1,4 +1,4 @@
-codeunit 50000 "BYD Json Helper"
+codeunit 50000 "BIT Json Helper"
 {
     procedure FindValue(JObject: JsonObject; Path: Text): JsonValue
     var

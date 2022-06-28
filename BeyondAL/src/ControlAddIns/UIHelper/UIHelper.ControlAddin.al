@@ -1,4 +1,4 @@
-controladdin "BYD UI Helper"
+controladdin "BIT UI Helper"
 {
     MinimumWidth = 1;
     MinimumHeight = 1;

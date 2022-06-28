@@ -1,4 +1,4 @@
-controladdin "BYD Preview"
+controladdin "BIT Preview"
 {
     Scripts = 'src/ControlAddIns/Preview/js/master.js';
     StartupScript = 'src/ControlAddIns/Preview/js/starting.js';

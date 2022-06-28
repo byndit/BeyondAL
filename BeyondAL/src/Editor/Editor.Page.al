@@ -1,4 +1,4 @@
-page 50002 "BYD Editor"
+page 50002 "BIT Editor"
 {
     UsageCategory = None;
     Caption = 'Editor';
@@ -20,12 +20,30 @@ page 50002 "BYD Editor"
             }
         }
     }
+
+    trigger OnOpenPage()
+    begin
+        xEditorText := EditorText;
+    end;
+
     procedure GetText(): Text
     begin
         exit(EditorText);
     end;
 
+    procedure GetxText(): Text
+    begin
+        exit(xEditorText);
+    end;
+
+    procedure SetText(NewEditorText: Text)
+    begin
+        EditorText := NewEditorText;
+    end;
+
+
     var
         EditorText: Text;
+        xEditorText: Text;
 }
 

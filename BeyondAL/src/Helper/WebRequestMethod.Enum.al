@@ -1,4 +1,4 @@
-enum 50000 "BYD Web Request Method"
+enum 50000 "BIT Web Request Method"
 {
     Extensible = true;
 

@@ -1,4 +1,4 @@
-page 50001 "BYD Viewer"
+page 50001 "BIT Viewer"
 {
     Caption = 'Viewer';
     PageType = Card;
@@ -11,7 +11,7 @@ page 50001 "BYD Viewer"
             group(ViewerGroup)
             {
                 ShowCaption = false;
-                usercontrol(BYDPreview; "BYD Preview")
+                usercontrol(BITPreview; "BIT Preview")
                 {
                     ApplicationArea = All;
                     trigger ControlReady()
@@ -25,7 +25,7 @@ page 50001 "BYD Viewer"
 
     local procedure LoadFile()
     begin
-        CurrPage.BYDPreview.LoadFile(Base64);
+        CurrPage.BITPreview.LoadFile(Base64);
     end;
 
     procedure SetVariables(Url: text; NewBase64: Text)
