@@ -33,6 +33,20 @@ page 50000 "BIT Examples"
                     BITExamplesMgt.DownloadPDFfromURL();
                 end;
             }
+            action(ImportRecordLinks)
+            {
+                ApplicationArea = All;
+                Caption = 'Import Record Links';
+                Image = Import;
+
+                trigger OnAction()
+                var
+                    Links: Codeunit "BIT Import Record Links";
+                begin
+                    Links.Run();
+                end;
+            }
+
             action(ShowImage)
             {
                 ApplicationArea = All;

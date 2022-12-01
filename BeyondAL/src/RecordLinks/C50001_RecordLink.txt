@@ -1,0 +1,87 @@
+OBJECT Codeunit 50001 Export Record Link
+{
+  OBJECT-PROPERTIES
+  {
+    Date=01.12.22;
+    Time=12:00:00;
+    Modified=Yes;
+    Version List=BEYONDIT;
+  }
+  PROPERTIES
+  {
+    OnRun=VAR
+            FS@50013 : DotNet "'mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.FileStream";
+            FM@50012 : DotNet "'mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.FileMode";
+            SW@50011 : DotNet "'mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.StreamWriter";
+            Encoding@50010 : DotNet "'mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Text.Encoding";
+            String@50009 : DotNet "'mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.String";
+            RecordLink@50008 : Record 2000000068;
+            FileManagement@50007 : Codeunit 419;
+            CrLf@50006 : Text[2];
+            Line@50005 : Text;
+            FilePath@50004 : Text;
+            i@50003 : Integer;
+            Chr@50002 : Char;
+            NewLine@50001 : Text;
+            RecID@50000 : RecordID;
+          BEGIN
+            CrLf[1] := 13;
+            CrLf[2] := 10;
+            FilePath := 'C:\Temp\RecordLinks.txt';
+
+            RecordLink.SETRANGE(Company,COMPANYNAME);
+            RecordLink.SETRANGE(Type,RecordLink.Type::Note);
+            RecordLink.SETRANGE(Notify,FALSE);
+            IF RecordLink.FINDSET THEN BEGIN
+              IF FileManagement.ClientFileExists(FilePath) THEN
+                FileManagement.DeleteClientFile(FilePath);
+              FS := FS.FileStream(FilePath,FM.CreateNew());
+              SW := SW.StreamWriter(FS,Encoding.UTF8);
+              REPEAT
+                String := GetNote(RecordLink);
+                Line := String.Replace(CrLf,' ');
+                Line := String.Replace(';',' ');
+                Line := String.Replace('"',' ');
+                NewLine := '';
+                FOR i := 1 TO STRLEN(Line) DO BEGIN
+                  Chr := Line[i];
+                  IF Chr IN [32..126,196,214,220,228,246,252] THEN
+                    NewLine += FORMAT(Line[i]);
+                END;
+                IF EVALUATE(RecID,FORMAT(RecordLink."Record ID",0,9)) THEN BEGIN
+                  SW.Write(STRSUBSTNO('%1;%2',FORMAT(RecordLink."Record ID",0,9),NewLine));
+                  SW.Write(CrLf);
+                END;
+              UNTIL RecordLink.NEXT = 0;
+            END;
+          END;
+
+  }
+  CODE
+  {
+
+    PROCEDURE GetNote@50000(RecordLink@50000 : Record 2000000068) : Text;
+    VAR
+      StreamReader@50005 : DotNet "'mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.StreamReader";
+      Encoding@50004 : DotNet "'mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Text.Encoding";
+      CR@50003 : Text[2];
+      InStr@50002 : InStream;
+      vText@50001 : Text;
+    BEGIN
+      RecordLink.CALCFIELDS(Note);
+      IF NOT RecordLink.Note.HASVALUE THEN
+        EXIT('');
+      CR[1] := 13;
+      CR[2] := 10;
+      RecordLink.Note.CREATEINSTREAM(InStr);
+      StreamReader := StreamReader.StreamReader(InStr,Encoding.UTF8,TRUE);
+      vText := StreamReader.ReadToEnd;
+      StreamReader.Close;
+      EXIT(vText);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -24,6 +24,7 @@ codeunit 50001 "BIT Web Request Mgt."
         HeaderKey: Text;
         HeaderValue: Text;
     begin
+
         foreach HeaderKey in RequestHeaders.Keys() do begin
             RequestHeaders.Get(HeaderKey, HeaderValue);
             Client.DefaultRequestHeaders.Add(HeaderKey, HeaderValue);
