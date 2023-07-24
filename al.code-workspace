@@ -10,7 +10,32 @@
                         "path":  "BeyondAL.Test"
                     }
                 ],
-    "settings":  {
+  "settings": {
+    "CRS.FileNamePattern": "<ObjectNameShort>.<ObjectTypeShortPascalCase>.al",
+    "CRS.FileNamePatternExtensions": "<ObjectNameShort>.<ObjectTypeShortPascalCase>.al",
+    "CRS.FileNamePatternPageCustomizations": "<ObjectNameShort>.<ObjectTypeShortPascalCase>.al",
+    "CRS.OnSaveAlFileAction": "Rename",
+    "CRS.RenameWithGit": false,
+    "CRS.ObjectNamePrefix": "ABC ",
+    "CRS.RemovePrefixFromFilename": true,
+    "workbench.iconTheme": "vscode-icons",
+    "todo-tree.highlights.enabled": true,
+    "telemetry.enableTelemetry": false,
+    "editor.quickSuggestionsDelay": 2,
+    "editor.suggestSelection": "first",
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": false,
+      "strings": false
+    },
+    "editor.tabCompletion": "onlySnippets",
+    "al.enableCodeActions": true,
+    "al.enableCodeAnalysis": true,
+    "al.codeAnalyzers": [
+      "${CodeCop}",
+      "${UICop}"
+    ],
+    "al-test-runner.sendDebugTelemetry": false
+  }
 
-                 }
 }
