@@ -31,7 +31,7 @@ codeunit 50004 "BIT CSV TXT Process Lines"
         DataExchLineDef: Record "Data Exch. Line Def";
     begin
         DataExchLineDef.SetRange("Data Exch. Def Code", DataExch."Data Exch. Def Code");
-        if DataExchLineDef.FindSet then
+        if DataExchLineDef.FindSet() then
             repeat
                 ProcessColumnMapping(DataExch, DataExchLineDef, RecRef);
             until DataExchLineDef.Next() = 0;
@@ -70,13 +70,13 @@ codeunit 50004 "BIT CSV TXT Process Lines"
         DataExchFieldGroupByLineNo.SetRange("Data Exch. No.", DataExch."Entry No.");
         DataExchFieldGroupByLineNo.SetRange("Data Exch. Line Def Code", DataExchLineDef.Code);
         DataExchFieldGroupByLineNo.Ascending(true);
-        if not DataExchFieldGroupByLineNo.FindSet then
+        if not DataExchFieldGroupByLineNo.FindSet() then
             exit;
 
         repeat
             if DataExchFieldGroupByLineNo."Line No." <> CurrLineNo then begin
                 CurrLineNo := DataExchFieldGroupByLineNo."Line No.";
-                RecRef := RecRefTemplate.Duplicate;
+                RecRef := RecRefTemplate.Duplicate();
                 if (DataExchMapping."Data Exch. No. Field ID" <> 0) and (DataExchMapping."Data Exch. Line Field ID" <> 0) then begin
                     SetFieldValue(RecRef, DataExchMapping."Data Exch. No. Field ID", DataExch."Entry No.");
                     SetFieldValue(RecRef, DataExchMapping."Data Exch. Line Field ID", CurrLineNo);
@@ -86,7 +86,7 @@ codeunit 50004 "BIT CSV TXT Process Lines"
                 repeat
                     DataExchField.SetRange("Line No.", CurrLineNo);
                     DataExchField.SetRange("Column No.", DataExchFieldMapping."Column No.");
-                    if DataExchField.FindSet then
+                    if DataExchField.FindSet() then
                         repeat
                             SetField(RecRef, DataExchFieldMapping, DataExchField, TempFieldIdsToNegate)
                         until DataExchField.Next() = 0
@@ -121,7 +121,7 @@ codeunit 50004 "BIT CSV TXT Process Lines"
 
         Fld := RecRef.Field(DataExchFieldMapping."Field ID");
 
-        TransformedValue := DataExchField.GetValue; // We shoud use the trim transformation rule instead of this
+        TransformedValue := DataExchField.GetValue(); // We shoud use the trim transformation rule instead of this
         if TransformationRule.Get(DataExchFieldMapping."Transformation Rule") then
             TransformedValue := TransformationRule.TransformText(DataExchField.Value);
 
@@ -152,7 +152,7 @@ codeunit 50004 "BIT CSV TXT Process Lines"
                 Error(DataTypeNotSupportedErr, DataExchColumnDef.Description, DataExchFieldMapping."Data Exch. Def Code", Fld.Type);
         end;
         if not DataExchFieldMapping."Overwrite Value" then
-            Fld.Validate;
+            Fld.Validate();
     end;
 
     local procedure SetOptionField(ValueText: Text; FieldRef: FieldRef)
@@ -171,6 +171,7 @@ codeunit 50004 "BIT CSV TXT Process Lines"
     local procedure SetAndMergeTextCodeField(Value: Text; var FieldRef: FieldRef; OverwriteValue: Boolean)
     var
         CurrentLength: Integer;
+        ValueTok: Label '%1 %2', Locked = true, Comment = '%1=Field Value;%2=Field Value';
     begin
         CurrentLength := StrLen(Format(FieldRef.Value));
         if (FieldRef.Length = CurrentLength) and not OverwriteValue then
@@ -178,7 +179,7 @@ codeunit 50004 "BIT CSV TXT Process Lines"
         if (CurrentLength = 0) or OverwriteValue then
             FieldRef.Value := CopyStr(Value, 1, FieldRef.Length)
         else
-            FieldRef.Value := StrSubstNo('%1 %2', Format(FieldRef.Value), CopyStr(Value, 1, FieldRef.Length - CurrentLength - 1));
+            FieldRef.Value := StrSubstNo(ValueTok, Format(FieldRef.Value), CopyStr(Value, 1, FieldRef.Length - CurrentLength - 1));
     end;
 
     local procedure SetDateDecimalField(ValueText: Text; var DataExchField: Record "Data Exch. Field"; var FieldRef: FieldRef; var DataExchColumnDef: Record "Data Exch. Column Def")
@@ -226,11 +227,11 @@ codeunit 50004 "BIT CSV TXT Process Lines"
         RecRef: RecordRef;
         FieldRef: FieldRef;
     begin
-        RecRef := RecRefTemplate.Duplicate;
+        RecRef := RecRefTemplate.Duplicate();
         SetKeyAsFilter(RecRef);
         FieldRef := RecRef.Field(FieldId);
-        FieldRef.SetRange;
-        if RecRef.FindLast then
+        FieldRef.SetRange();
+        if RecRef.FindLast() then
             exit(RecRef.Field(FieldId).Value);
         exit(0);
     end;
@@ -277,12 +278,12 @@ codeunit 50004 "BIT CSV TXT Process Lines"
         FieldRef: FieldRef;
         Amount: Decimal;
     begin
-        if TempFieldIdsToNegate.FindSet then begin
+        if TempFieldIdsToNegate.FindSet() then begin
             repeat
                 FieldRef := RecRef.Field(TempFieldIdsToNegate.Number);
                 Amount := FieldRef.Value;
                 FieldRef.Value := -Amount;
-                FieldRef.Validate;
+                FieldRef.Validate();
             until TempFieldIdsToNegate.Next() = 0;
             TempFieldIdsToNegate.DeleteAll();
         end;

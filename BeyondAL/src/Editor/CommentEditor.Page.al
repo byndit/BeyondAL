@@ -29,7 +29,6 @@ page 50003 "BIT Comment Editor"
     trigger OnFindRecord(Which: Text): Boolean
     var
         Found: Boolean;
-        IsEditbale: Boolean;
     begin
         Found := FindRec(Rec, Which);
         exit(Found);
@@ -48,12 +47,12 @@ page 50003 "BIT Comment Editor"
 
         Found := CommentLine.Find(Which);
         if Found then
-                repeat
-                    if Msg = '' then
-                        Msg := CommentLine.Comment
-                    else
-                        Msg += GetLF() + CommentLine.Comment;
-                until CommentLine.Next() = 0;
+            repeat
+                if Msg = '' then
+                    Msg := CommentLine.Comment
+                else
+                    Msg += GetLF() + CommentLine.Comment;
+            until CommentLine.Next() = 0;
         xMsg := Msg;
         exit(Found);
     end;
@@ -73,7 +72,7 @@ page 50003 "BIT Comment Editor"
         Rec.FilterGroup := 4;
         CommentLine.CopyFilters(Rec);
         if CommentLine.GETFILTER("No.") <> '' then
-            No := CommentLine.GETFILTER("No.");
+            No := CopyStr(CommentLine.GETFILTER("No."), 1, 20);
         if CommentLine.GETFILTER("Table Name") <> '' then
             Evaluate(CommentLineTableName, CommentLine.GETFILTER("Table Name"));
         Rec.FilterGroup := 2;

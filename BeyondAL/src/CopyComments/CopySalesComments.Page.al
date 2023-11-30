@@ -1,4 +1,4 @@
-page 50004 "Copy Sales Comments"
+page 50004 "BIT Copy Sales Comments"
 {
     Caption = 'Copy Sales Comments';
     ApplicationArea = All;
@@ -19,6 +19,7 @@ page 50004 "Copy Sales Comments"
                     {
                         Caption = 'From Document Type';
                         ShowMandatory = true;
+                        ToolTip = 'Specifies the value of the From Document Type field.';
                         trigger OnValidate()
                         begin
                             Clear(FromDocNo);
@@ -29,6 +30,7 @@ page 50004 "Copy Sales Comments"
                         Caption = 'From Document No.';
                         Editable = false;
                         ShowMandatory = true;
+                        ToolTip = 'Specifies the value of the From Document No. field.';
                         trigger OnDrillDown()
                         begin
                             FromDocNo := SelectRecord(FromDocType);
@@ -42,6 +44,7 @@ page 50004 "Copy Sales Comments"
                     {
                         Caption = 'To Document Type';
                         ShowMandatory = true;
+                        ToolTip = 'Specifies the value of the To Document Type field.';
                         trigger OnValidate()
                         begin
                             Clear(ToDocNo);
@@ -52,7 +55,7 @@ page 50004 "Copy Sales Comments"
                         Caption = 'To Document No.';
                         Editable = false;
                         ShowMandatory = true;
-
+                        ToolTip = 'Specifies the value of the To Document No. field.';
                         trigger OnDrillDown()
                         begin
                             ToDocNo := SelectRecord(ToDocType);
@@ -71,7 +74,6 @@ page 50004 "Copy Sales Comments"
 
     local procedure SelectRecord(DocType: Enum "Sales Comment Document Type"): Code[20]
     var
-        SalesHeader: Record "Sales Header";
         RecVar: Variant;
         RecRef: RecordRef;
     begin

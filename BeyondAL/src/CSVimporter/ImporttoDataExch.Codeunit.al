@@ -40,7 +40,7 @@ codeunit 50003 "BIT Import to Data Exch"
         DataExchLineDef: Record "Data Exch. Line Def";
     begin
         DataExchLineDef.SetRange("Data Exch. Def Code", DataExch."Data Exch. Def Code");
-        DataExchLineDef.FindFirst;
+        DataExchLineDef.FindFirst();
 
         if ((LineNo + SkippedLineNo) <= DataExchDef."Header Lines") or
            ((DataExchLineDef."Data Line Tag" <> '') and (StrPos(Line, DataExchLineDef."Data Line Tag") <> 1))
@@ -74,13 +74,13 @@ codeunit 50003 "BIT Import to Data Exch"
         RegEx.Groups(TempMatches, TempGroups);
         TempGroups.Get(2); //Match 1: "02.01.2022", Group 1: '', Group 2: 02.01.2022
 
-        DataExchField.Init;
+        DataExchField.Init();
         DataExchField.Validate("Data Exch. No.", DataExchNo);
         DataExchField.Validate("Line No.", LineNo);
         DataExchField.Validate("Column No.", ColumnNo);
-        DataExchField.Value := TempGroups.ReadValue();
+        DataExchField.Value := CopyStr(TempGroups.ReadValue(), 1, MaxStrLen(DataExchField.Value));
         DataExchField.Validate("Data Exch. Line Def Code", DataExchLineDefCode);
-        DataExchField.Insert;
+        DataExchField.Insert();
     end;
 }
 

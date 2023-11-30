@@ -44,7 +44,7 @@ codeunit 50005 "BIT Import File"
 
         NumberOfLinesImported := CountImportedLines(DataExch, NumberOfLinesImported);
 
-        ProgressWindow.Close;
+        ProgressWindow.Close();
         FinishDateTime := CurrentDateTime();
         SendNotificationAfterImport(DataExchDef, NumberOfLinesImported, StartDateTime, FinishDateTime);
         exit(true);

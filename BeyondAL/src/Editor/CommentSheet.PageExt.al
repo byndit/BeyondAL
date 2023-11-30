@@ -15,7 +15,7 @@ pageextension 50001 "BIT Comment Sheet" extends "Comment Sheet"
     {
         addfirst(Processing)
         {
-            action(save)
+            action("BIT save")
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Save';

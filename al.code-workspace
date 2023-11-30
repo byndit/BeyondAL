@@ -4,6 +4,9 @@
                         "path":  ".AL-Go"
                     },
                     {
+                        "path":  ".alpackages"
+                    },
+                    {
                         "path":  "BeyondAL"
                     },
                     {
@@ -16,7 +19,7 @@
     "CRS.FileNamePatternPageCustomizations": "<ObjectNameShort>.<ObjectTypeShortPascalCase>.al",
     "CRS.OnSaveAlFileAction": "Rename",
     "CRS.RenameWithGit": false,
-    "CRS.ObjectNamePrefix": "ABC ",
+    "CRS.ObjectNamePrefix": "BIT ",
     "CRS.RemovePrefixFromFilename": true,
     "workbench.iconTheme": "vscode-icons",
     "todo-tree.highlights.enabled": true,
@@ -35,7 +38,9 @@
       "${CodeCop}",
       "${UICop}"
     ],
-    "al-test-runner.sendDebugTelemetry": false
+    "al-test-runner.sendDebugTelemetry": false,
+    "al.ruleSetPath": "..\\al.ruleset.json",
+    "al.packageCachePath": "..\\.alpackages"
   }
 
 }

@@ -1,4 +1,4 @@
-pageextension 50002 "Customer List Ext." extends "Customer List"
+pageextension 50002 "BIT Customer List Ext." extends "Customer List"
 {
     trigger OnOpenPage()
     begin

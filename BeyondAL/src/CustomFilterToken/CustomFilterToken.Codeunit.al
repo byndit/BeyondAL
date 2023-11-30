@@ -1,4 +1,4 @@
-codeunit 50008 "ABC Custom Filter Token"
+codeunit 50008 "BIT Custom Filter Token"
 {
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Filter Tokens", 'OnResolveTextFilterToken', '', true, true)]
     local procedure FilterMySalesperson(TextToken: Text; var TextFilter: Text; var Handled: Boolean)

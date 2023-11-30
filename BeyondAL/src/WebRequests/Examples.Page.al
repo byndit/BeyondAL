@@ -25,7 +25,7 @@ page 50000 "BIT Examples"
                 ApplicationArea = All;
                 Caption = 'Download a PDF file from URL';
                 Image = Download;
-
+                ToolTip = 'Executes the Download a PDF file from URL action.';
                 trigger OnAction()
                 var
                     BITExamplesMgt: Codeunit "BIT Examples Mgt.";
@@ -38,7 +38,7 @@ page 50000 "BIT Examples"
                 ApplicationArea = All;
                 Caption = 'Import Record Links';
                 Image = Import;
-
+                ToolTip = 'Executes the Import Record Links action.';
                 trigger OnAction()
                 var
                     Links: Codeunit "BIT Import Record Links";
@@ -52,7 +52,7 @@ page 50000 "BIT Examples"
                 ApplicationArea = All;
                 Caption = 'Show a picture from URL in a separate Page';
                 Image = ShowList;
-
+                ToolTip = 'Executes the Show a picture from URL in a separate Page action.';
                 trigger OnAction()
                 var
                     BITExamplesMgt: Codeunit "BIT Examples Mgt.";

@@ -1,0 +1,38 @@
+{
+    "rules": [
+        {
+            "id": "AA0100",
+            "action": "None"
+        },
+        {
+            "id": "AS0011",
+            "action": "Warning",
+            "justification": "The identifier ‘{0}’ must have the prefix ‘{1}’."
+        },
+        {
+            "id": "AS0015",
+            "action": "None"
+        },
+        {
+            "id": "AS0051",
+            "action": "Info"
+        },
+        {
+            "id": "AA0214",
+            "action": "Hidden",
+            "justification": "Buggy, check https://github.com/microsoft/AL/issues/5665"
+        },
+        {
+            "id": "AS0084",
+            "action": "Hidden",
+            "justification": "Hides the 'Id Range 50000 is not valid for Appsource' error, as we want to enforce Appsource rules for customer extensions aswell."
+        },
+        {
+            "id": "AA0072",
+            "action": "Hidden",
+            "justification": "Hides the 'Variable name must be suffixed with object type or name' warning, as this style of variable names would clutter the source code too much."
+        }
+    ],
+    "name": "BEYONDIT GmbH",
+    "description": "Ruleset."
+}
