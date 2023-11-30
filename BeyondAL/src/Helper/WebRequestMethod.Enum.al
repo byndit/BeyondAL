@@ -14,4 +14,7 @@ enum 50000 "BIT Web Request Method"
     value(3; DELETE)
     {
     }
+    value(4; MERGE)
+    {
+    }
 }
