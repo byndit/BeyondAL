@@ -21,10 +21,11 @@ codeunit 50001 "BIT Web Request Mgt."
     var
         Client: HttpClient;
         Response: HttpResponseMessage;
+        RequestMessage: HttpRequestMessage;
+        Headers: HttpHeaders;
         HeaderKey: Text;
         HeaderValue: Text;
     begin
-
         foreach HeaderKey in RequestHeaders.Keys() do begin
             RequestHeaders.Get(HeaderKey, HeaderValue);
             Client.DefaultRequestHeaders.Add(HeaderKey, HeaderValue);
@@ -39,6 +40,17 @@ codeunit 50001 "BIT Web Request Mgt."
                 Client.Put(Url, Content, Response);
             Method::DELETE:
                 Client.Delete(Url, Response);
+            Method::MERGE:
+                begin
+                    foreach HeaderKey in RequestHeaders.Keys() do
+                        Headers.Add(HeaderKey, HeaderValue);
+
+                    RequestMessage.SetRequestUri(Url);
+                    RequestMessage.GetHeaders(Headers);
+                    RequestMessage.Method := 'MERGE';
+                    RequestMessage.Content(Content);
+                    Client.Send(RequestMessage, Response);
+                end;
         end;
         exit(Response);
     end;
