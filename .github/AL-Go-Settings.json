@@ -1,5 +1,4 @@
 {
-  "type": "AppSource App",
-  "templateUrl": "https://github.com/microsoft/AL-Go-AppSource@v8.0",
-  "artifact": "////weekly"
+    "type":  "AppSource App",
+    "templateUrl":  "https://github.com/byndit/AL-Go-AppSource@main"
 }
